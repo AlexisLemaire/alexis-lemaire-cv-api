@@ -11,13 +11,17 @@ exports.Insert = (req,res) => {
         else 
         {
             const body = req.body;
-            db.query("INSERT INTO mesProjets VALUES(?,?,?,?,?)", [body.title, body.description, body.date, body.link, body.github], (err) => {
-                if(err !== null){
-                    res.json({error: err.message});
-                } else {
-                    res.json({success: "L'ajout du projet s'est bien déroulé"});
+            db.query(
+                "INSERT INTO mesProjets(title,description,date,link,github) VALUES(?,?,?,?,?)", 
+                [body.title, body.description, body.date, body.link, body.github], 
+                (err) => {
+                    if(err !== null){
+                        res.json({error: err.message});
+                    } else {
+                        res.json({success: "L'ajout du projet s'est bien déroulé"});
+                    }
                 }
-            });
+            );
         }
     });
 }
@@ -40,7 +44,8 @@ exports.Update = (req,res) => {
                     } else {
                         res.json({success: "La modification du projet s'est bien déroulée"});
                     }
-            });
+                }
+            );
         }
     });
 }
