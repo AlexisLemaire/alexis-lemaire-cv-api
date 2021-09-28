@@ -51,7 +51,7 @@ exports.Update = (req,res) => {
 }
 
 exports.Delete = (req,res) => {
-    db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.body.secretKey], (err, result) => {
+    db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.params.secretKey], (err, result) => {
         if(result == false)
         {
             res.json({error: "La secret key est incorrecte, donc la suppression n'a pas eu lieu"});
