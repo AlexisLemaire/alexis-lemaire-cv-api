@@ -30,7 +30,7 @@ exports.Update = (req,res) => {
     db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.body.secretKey], (err, result) => {
         if(result == false)
         {
-            res.json({error: "La secret key est incorrecte, donc l'ajout n'a pas eu lieu."});
+            res.json({error: "La secret key est incorrecte, donc la mise à jour n'a pas eu lieu."});
         } 
         else 
         {
@@ -48,6 +48,26 @@ exports.Update = (req,res) => {
             );
         }
     });
+}
+
+exports.Delete = (req,res) => {
+    db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.body.secretKey], (err, result) => {
+        if(result == false)
+        {
+            res.json({error: "La secret key est incorrecte, donc la suppression n'a pas eu lieu"});
+        } 
+        else 
+        {
+            db.query("DELETE FROM mesProjets WHERE id = ?", [req.params.id], (err) => {
+                if(err !== null){
+                    res.json({error: err.message});
+                } else {
+                    res.json({success: "La suppression du projet s'est bien déroulée"});
+                }
+            });
+        }
+    });
+    
 }
 
 exports.Select = (req,res) => {
