@@ -1,10 +1,7 @@
 const fastify = require("fastify")();
 //require('dotenv').config();
 
-fastify.register(require('fastify-cors'), { 
-    origin: true, 
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Accept', 'Content-Type', 'Authorization'], 
-    methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'], });
+fastify.register(require('fastify-cors'), { origin: '*' });
 
 const mysql = require('mysql');
 const db = mysql.createConnection({host: process.env.host, user: process.env.user, password: process.env.password, database: process.env.database});
@@ -96,4 +93,4 @@ fastify.put('/projects/:id', async (req, rep) => {
     });
 });
 
-fastify.listen(process.env.PORT || 3001);
+fastify.listen(process.env.PORT || 3001, '0.0.0.0');
