@@ -1,7 +1,7 @@
 const fastify = require("fastify")();
 //require('dotenv').config();
 
-fastify.register(require('fastify-cors'), { origin: '*', methods: ['GET','POST','PUT','DELETE'] });
+fastify.register(require('fastify-cors'), { origin: '*' });
 
 const mysql = require('mysql');
 const db = mysql.createConnection({host: process.env.host, user: process.env.user, password: process.env.password, database: process.env.database});
@@ -12,6 +12,9 @@ db.connect((err) => { if(err){ console.log(err); } });
 // SELECT ALL
 fastify.get('/projects', async (req, rep) => {
     db.query("SELECT * FROM mesProjets", (err, result) => {
+        if(err !== null){
+            rep.send({error: err.message});
+        } 
         rep.send(result);
     });
 });
@@ -19,6 +22,9 @@ fastify.get('/projects', async (req, rep) => {
 // SELECT ONE 
 fastify.get('/projects/:id', async (req, rep) => {
     db.query("SELECT * FROM mesProjets WHERE id = ?", [req.params.id], (err, result) => {
+        if(err !== null){
+            rep.send({error: err.message});
+        } 
         rep.send(result);
     });
 });
@@ -34,14 +40,13 @@ fastify.post('/projects', async (req, rep) => {
         {
             const body = req.body;
             db.query(
-                "INSERT INTO mesProjets(title,description,date,link,github) VALUES(?,?,?,?,?)", 
-                [body.title, body.description, body.date, body.link, body.github], 
+                "INSERT INTO mesProjets(title,description,date,link,github,githubAPI) VALUES(?,?,?,?,?,?)", 
+                [body.title, body.description, body.date, body.link, body.github, body.githubAPI], 
                 (err) => {
                     if(err !== null){
                         rep.send({error: err.message});
-                    } else {
-                        rep.send({success: "L'ajout du projet s'est bien déroulé"});
                     }
+                    rep.send({success: "L'ajout du projet s'est bien déroulé"});
                 }
             );
         }
@@ -60,9 +65,8 @@ fastify.delete('/projects/:id/:secretKey', async (req, rep) => {
             db.query("DELETE FROM mesProjets WHERE id = ?", [req.params.id], (err) => {
                 if(err !== null){
                     rep.send({error: err.message});
-                } else {
-                    rep.send({success: "La suppression du projet s'est bien déroulée"});
-                }
+                } 
+                rep.send("OK");
             });
         }
     });
@@ -79,14 +83,13 @@ fastify.put('/projects/:id', async (req, rep) => {
         {
             const body = req.body;
             db.query(
-                "UPDATE mesProjets SET title = ?, description = ?, date = ?, link = ?, github = ? WHERE id = ?", 
-                [body.title, body.description, body.date, body.link, body.github, req.params.id], 
+                "UPDATE mesProjets SET title = ?, description = ?, date = ?, link = ?, github = ?, githubAPI = ? WHERE id = ?", 
+                [body.title, body.description, body.date, body.link, body.github, body.githubAPI, req.params.id], 
                 (err) => {
                     if(err !== null){
                         rep.send({error: err.message});
-                    } else {
-                        rep.send({success: "La modification du projet s'est bien déroulée"});
                     }
+                    rep.send({success: "La modification du projet s'est bien déroulée"});
                 }
             );
         }
