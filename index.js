@@ -1,5 +1,5 @@
 const fastify = require("fastify")();
-require('dotenv').config();
+//require('dotenv').config();
 
 fastify.register(require('fastify-cors'), { 
     origin: true, 
