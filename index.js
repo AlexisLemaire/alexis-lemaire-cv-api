@@ -28,7 +28,7 @@ fastify.post('/projects', async (req, rep) => {
     db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.body.secretKey], (err, result) => {
         if(result == false)
         {
-            res.json({error: "La secret key est incorrecte, donc l'ajout n'a pas eu lieu."});
+            rep.send({error: "La secret key est incorrecte, donc l'ajout n'a pas eu lieu."});
         } 
         else 
         {
@@ -38,9 +38,9 @@ fastify.post('/projects', async (req, rep) => {
                 [body.title, body.description, body.date, body.link, body.github], 
                 (err) => {
                     if(err !== null){
-                        res.json({error: err.message});
+                        rep.send({error: err.message});
                     } else {
-                        res.json({success: "L'ajout du projet s'est bien déroulé"});
+                        rep.send({success: "L'ajout du projet s'est bien déroulé"});
                     }
                 }
             );
@@ -53,15 +53,15 @@ fastify.delete('/projects/:id/:secretKey', async (req, rep) => {
     db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.params.secretKey], (err, result) => {
         if(result == false)
         {
-            res.json({error: "La secret key est incorrecte, donc la suppression n'a pas eu lieu"});
+            rep.send({error: "La secret key est incorrecte, donc la suppression n'a pas eu lieu"});
         } 
         else 
         {
             db.query("DELETE FROM mesProjets WHERE id = ?", [req.params.id], (err) => {
                 if(err !== null){
-                    res.json({error: err.message});
+                    rep.send({error: err.message});
                 } else {
-                    res.json({success: "La suppression du projet s'est bien déroulée"});
+                    rep.send({success: "La suppression du projet s'est bien déroulée"});
                 }
             });
         }
@@ -73,7 +73,7 @@ fastify.put('/projects/:id', async (req, rep) => {
     db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.body.secretKey], (err, result) => {
         if(result == false)
         {
-            res.json({error: "La secret key est incorrecte, donc la mise à jour n'a pas eu lieu."});
+            rep.send({error: "La secret key est incorrecte, donc la mise à jour n'a pas eu lieu."});
         } 
         else 
         {
@@ -83,9 +83,9 @@ fastify.put('/projects/:id', async (req, rep) => {
                 [body.title, body.description, body.date, body.link, body.github, req.params.id], 
                 (err) => {
                     if(err !== null){
-                        res.json({error: err.message});
+                        rep.send({error: err.message});
                     } else {
-                        res.json({success: "La modification du projet s'est bien déroulée"});
+                        rep.send({success: "La modification du projet s'est bien déroulée"});
                     }
                 }
             );
