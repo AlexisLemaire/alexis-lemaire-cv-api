@@ -1,8 +1,10 @@
-const fastify = require("fastify");
-const app = fastify.fastify();
+const fastify = require("fastify")();
 require('dotenv').config();
 
-app.register(require('fastify-cors'), { origin: '*' });
+fastify.register(require('fastify-cors'), { 
+    origin: true, 
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Accept', 'Content-Type', 'Authorization'], 
+    methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'], });
 
 const mysql = require('mysql');
 const db = mysql.createConnection({host: process.env.host, user: process.env.user, password: process.env.password, database: process.env.database});
@@ -11,21 +13,21 @@ db.connect((err) => { if(err){ console.log(err); } });
 // ********************************* ROUTES ************************************************** //
 
 // SELECT ALL
-app.get('/projects', async (req, rep) => {
+fastify.get('/projects', async (req, rep) => {
     db.query("SELECT * FROM mesProjets", (err, result) => {
         rep.send(result);
     });
 });
 
 // SELECT ONE 
-app.get('/projects/:id', async (req, rep) => {
+fastify.get('/projects/:id', async (req, rep) => {
     db.query("SELECT * FROM mesProjets WHERE id = ?", [req.params.id], (err, result) => {
         rep.send(result);
     });
 });
 
 // CREATE ONE 
-app.post('/projects', async (req, rep) => {
+fastify.post('/projects', async (req, rep) => {
     db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.body.secretKey], (err, result) => {
         if(result == false)
         {
@@ -50,7 +52,7 @@ app.post('/projects', async (req, rep) => {
 });
 
 // DELETE ONE 
-app.delete('/projects/:id/:secretKey', async (req, rep) => {
+fastify.delete('/projects/:id/:secretKey', async (req, rep) => {
     db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.params.secretKey], (err, result) => {
         if(result == false)
         {
@@ -70,7 +72,7 @@ app.delete('/projects/:id/:secretKey', async (req, rep) => {
 });
 
 // UPDATE ONE 
-app.put('/projects/:id', async (req, rep) => {
+fastify.put('/projects/:id', async (req, rep) => {
     db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.body.secretKey], (err, result) => {
         if(result == false)
         {
@@ -94,4 +96,4 @@ app.put('/projects/:id', async (req, rep) => {
     });
 });
 
-app.listen(process.env.PORT || 3001);
+fastify.listen(process.env.PORT || 3001);
