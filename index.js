@@ -1,7 +1,7 @@
 const fastify = require("fastify")();
 //require('dotenv').config();
 
-fastify.register(require('fastify-cors'), { origin: '*' });
+fastify.register(require('fastify-cors'), { origin: '*', methods: ['GET','POST','PUT','DELETE'] });
 
 const mysql = require('mysql');
 const db = mysql.createConnection({host: process.env.host, user: process.env.user, password: process.env.password, database: process.env.database});
