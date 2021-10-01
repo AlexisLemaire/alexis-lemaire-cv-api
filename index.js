@@ -1,7 +1,6 @@
 const fastify = require("fastify")();
 fastify.register(require('fastify-cors'), { origin: '*' });
-require('dotenv').config();
-// UNCOMMENT LINE ABOVE IN DEV
+//require('dotenv').config(); //COMMENT IN PROD
 
 // ********************************* ROUTES ************************************************** //
 
