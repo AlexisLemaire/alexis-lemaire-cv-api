@@ -1,99 +1,15 @@
 const fastify = require("fastify")();
 fastify.register(require('fastify-cors'), { origin: '*' });
-// UNCOMMENT THIS TO GET ENV VARS WORKING IN DEV
-//require('dotenv').config();
-
-const mysql = require('mysql');
-const db = mysql.createConnection({host: process.env.host, user: process.env.user, password: process.env.password, database: process.env.database});
-db.connect((err) => { if(err){ console.log(err); } });
+require('dotenv').config();
+// UNCOMMENT LINE ABOVE IN DEV
 
 // ********************************* ROUTES ************************************************** //
 
-// SELECT ALL
-fastify.get('/projects', async (req, rep) => {
-    db.query("SELECT * FROM mesProjets", (err, result) => {
-        if(err !== null){
-            rep.send({error: err.message});
-        } 
-        rep.send(result);
-    });
-});
-
-// SELECT ONE 
-fastify.get('/projects/:id', async (req, rep) => {
-    db.query("SELECT * FROM mesProjets WHERE id = ?", [req.params.id], (err, result) => {
-        if(err !== null){
-            rep.send({error: err.message});
-        } 
-        rep.send(result);
-    });
-});
-
-// CREATE ONE 
-fastify.post('/projects', async (req, rep) => {
-    db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.body.secretKey], (err, result) => {
-        if(result == false)
-        {
-            rep.send({error: "La secret key est incorrecte, donc l'ajout n'a pas eu lieu."});
-        } 
-        else 
-        {
-            const body = req.body;
-            db.query(
-                "INSERT INTO mesProjets(title,description,date,link,github,githubAPI) VALUES(?,?,?,?,?,?)", 
-                [body.title, body.description, body.date, body.link, body.github, body.githubAPI], 
-                (err) => {
-                    if(err !== null){
-                        rep.send({error: err.message});
-                    }
-                    rep.send({success: "L'ajout du projet s'est bien déroulé"});
-                }
-            );
-        }
-    });
-});
-
-// DELETE ONE 
-fastify.delete('/projects/:id/:secretKey', async (req, rep) => {
-    db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.params.secretKey], (err, result) => {
-        if(result == false)
-        {
-            rep.send({error: "La secret key est incorrecte, donc la suppression n'a pas eu lieu"});
-        } 
-        else 
-        {
-            db.query("DELETE FROM mesProjets WHERE id = ?", [req.params.id], (err) => {
-                if(err !== null){
-                    rep.send({error: err.message});
-                } 
-                rep.send("OK");
-            });
-        }
-    });
-});
-
-// UPDATE ONE 
-fastify.put('/projects/:id', async (req, rep) => {
-    db.query("SELECT secretKey FROM myKeys WHERE secretKey = ?", [req.body.secretKey], (err, result) => {
-        if(result == false)
-        {
-            rep.send({error: "La secret key est incorrecte, donc la mise à jour n'a pas eu lieu."});
-        } 
-        else 
-        {
-            const body = req.body;
-            db.query(
-                "UPDATE mesProjets SET title = ?, description = ?, date = ?, link = ?, github = ?, githubAPI = ? WHERE id = ?", 
-                [body.title, body.description, body.date, body.link, body.github, body.githubAPI, req.params.id], 
-                (err) => {
-                    if(err !== null){
-                        rep.send({error: err.message});
-                    }
-                    rep.send({success: "La modification du projet s'est bien déroulée"});
-                }
-            );
-        }
-    });
-});
+const projectsCRUD = require("./CRUD/projectsCRUD");
+fastify.get('/projects', projectsCRUD.SelectAll);                // SELECT ALL
+fastify.get('/projects/:id', projectsCRUD.Select);               // SELECT ONE BY ID
+fastify.post('/projects', projectsCRUD.Insert);                  // INSERT ONE 
+fastify.put('/projects/:id', projectsCRUD.Update);               // UPDATE ONE
+fastify.delete('/projects/:id/:secretKey', projectsCRUD.Delete); // DELETE ONE
 
 fastify.listen(process.env.PORT || 3001, '0.0.0.0');
