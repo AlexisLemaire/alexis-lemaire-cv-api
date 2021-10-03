@@ -30,8 +30,8 @@ exports.Insert = async (req, rep) => {
         {
             const body = req.body;
             db.query(
-                "INSERT INTO mesProjets(title,description,date,link,github,githubAPI) VALUES(?,?,?,?,?,?)", 
-                [body.title, body.description, body.date, body.link, body.github, body.githubAPI], 
+                "INSERT INTO mesProjets(title,description,date,link,github,githubAPI,dev) VALUES(?,?,?,?,?,?,?)", 
+                [body.title, body.description, body.date, body.link, body.github, body.githubAPI, body.dev], 
                 (err) => {
                     if(err !== null){
                         rep.send({error: err.message});
@@ -53,8 +53,8 @@ exports.Update = async (req, rep) => {
         {
             const body = req.body;
             db.query(
-                "UPDATE mesProjets SET title = ?, description = ?, date = ?, link = ?, github = ?, githubAPI = ? WHERE id = ?", 
-                [body.title, body.description, body.date, body.link, body.github, body.githubAPI, req.params.id], 
+                "UPDATE mesProjets SET title = ?, description = ?, date = ?, link = ?, github = ?, githubAPI = ?, dev = ? WHERE id = ?", 
+                [body.title, body.description, body.date, body.link, body.github, body.githubAPI, body.dev, req.params.id], 
                 (err) => {
                     if(err !== null){
                         rep.send({error: err.message});
