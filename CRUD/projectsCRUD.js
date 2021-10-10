@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const db = mysql.createPool({host: process.env.host, user: process.env.user, password: process.env.password, database: process.env.database});
-db.connect((err) => { if(err){ console.log(err); } });
+//db.connect((err) => { if(err){ console.log(err); } });
 
 exports.SelectAll = async (req, rep) => {
   db.query("SELECT * FROM mesProjets", (err, result) => {
