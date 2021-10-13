@@ -4,7 +4,7 @@ fastify.register(require('fastify-cors'), { origin: '*' });
 
 // ********************************* ROUTES ************************************************** //
 
-const projectsCRUD = require("./CRUD/projectsCRUD");
+const projectsCRUD = require("./dist/projectsCRUD.js");
 fastify.get('/projects', projectsCRUD.SelectAll);                // SELECT ALL
 fastify.get('/projects/:id', projectsCRUD.Select);               // SELECT ONE BY ID
 fastify.post('/projects', projectsCRUD.Insert);                  // INSERT ONE 

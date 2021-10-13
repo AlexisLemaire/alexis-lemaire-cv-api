@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^16.10.5",
     "fastify": "^3.21.6",
     "fastify-cors": "^6.0.2",
     "mysql": "^2.18.1"
