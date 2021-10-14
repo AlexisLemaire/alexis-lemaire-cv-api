@@ -14,8 +14,13 @@ const SelectAll = (req, rep) => __awaiter(this, void 0, void 0, function* () {
         rep.send(result);
     });
 });
-const Select = (req, rep) => __awaiter(this, void 0, void 0, function* () {
+const SelectById = (req, rep) => __awaiter(this, void 0, void 0, function* () {
     db.query("SELECT * FROM mesProjets WHERE id = ?", [req.params.id], (err, result) => {
+        rep.send(result);
+    });
+});
+const SelectByTitle = (req, rep) => __awaiter(this, void 0, void 0, function* () {
+    db.query("SELECT * FROM mesProjets WHERE title = ?", [req.params.id], (err, result) => {
         rep.send(result);
     });
 });
@@ -70,6 +75,6 @@ const Delete = (req, rep) => __awaiter(this, void 0, void 0, function* () {
     }
 });
 module.exports = {
-    Select, SelectAll, Insert, Update, Delete
+    SelectById, SelectByTitle, SelectAll, Insert, Update, Delete
 };
 //# sourceMappingURL=projectsCRUD.js.map

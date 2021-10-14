@@ -7,8 +7,14 @@ const SelectAll = async (req, rep) => {
   });
 };
 
-const Select = async (req, rep) => {
+const SelectById = async (req, rep) => {
   db.query("SELECT * FROM mesProjets WHERE id = ?", [req.params.id], (err, result) => {
+    rep.send(result);
+  });
+}
+
+const SelectByTitle = async (req, rep) => {
+  db.query("SELECT * FROM mesProjets WHERE title = ?", [req.params.id], (err, result) => {
     rep.send(result);
   });
 }
@@ -72,5 +78,5 @@ const Delete = async (req, rep) => {
 };
 
 module.exports = {
-  Select, SelectAll, Insert, Update, Delete
+  SelectById, SelectByTitle, SelectAll, Insert, Update, Delete
 }
