@@ -15,12 +15,14 @@ const SelectAll = (req, rep) => __awaiter(this, void 0, void 0, function* () {
     });
 });
 const SelectById = (req, rep) => __awaiter(this, void 0, void 0, function* () {
-    db.query("SELECT * FROM mesProjets WHERE id = ?", [req.params.id], (err, result) => {
+    const projectID = req.params.id;
+    db.query("SELECT * FROM mesProjets WHERE id = ?", projectID, (err, result) => {
         rep.send(result);
     });
 });
 const SelectByTitle = (req, rep) => __awaiter(this, void 0, void 0, function* () {
-    db.query("SELECT * FROM mesProjets WHERE title = ?", [req.params.id], (err, result) => {
+    const projectTitle = req.params.title;
+    db.query("SELECT * FROM mesProjets WHERE title = ?", projectTitle, (err, result) => {
         rep.send(result);
     });
 });

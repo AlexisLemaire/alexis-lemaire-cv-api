@@ -8,13 +8,15 @@ const SelectAll = async (req, rep) => {
 };
 
 const SelectById = async (req, rep) => {
-  db.query("SELECT * FROM mesProjets WHERE id = ?", [req.params.id], (err, result) => {
+  const projectID : number = req.params.id;
+  db.query("SELECT * FROM mesProjets WHERE id = ?", projectID, (err, result) => {
     rep.send(result);
   });
 }
 
 const SelectByTitle = async (req, rep) => {
-  db.query("SELECT * FROM mesProjets WHERE title = ?", [req.params.id], (err, result) => {
+  const projectTitle = req.params.title;
+  db.query("SELECT * FROM mesProjets WHERE title = ?", projectTitle, (err, result) => {
     rep.send(result);
   });
 }
