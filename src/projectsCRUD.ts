@@ -14,13 +14,6 @@ const SelectById = async (req, rep) => {
   });
 }
 
-const SelectByTitle = async (req, rep) => {
-  const projectTitle = req.params.title;
-  db.query("SELECT * FROM mesProjets WHERE title = ?", projectTitle, (err, result) => {
-    rep.send(result);
-  });
-}
-
 const Insert = async (req, rep) => {
   if(req.body.secretKey !== process.env.secretKey) {
     rep.send({error: "La secret key est incorrecte, donc l'ajout n'a pas eu lieu."});
@@ -37,8 +30,9 @@ const Insert = async (req, rep) => {
     db.query(
       "INSERT INTO mesProjets(title,description,date,link,github,githubAPI,dev,frontendTech,backendTech) VALUES(?,?,?,?,?,?,?,?,?)", 
       [title, description, date, link, github, githubAPI, dev, frontendTech, backendTech], 
-      (err) => { 
-        err ? rep.send({error: err.message}) : rep.send({success: "L'ajout du projet s'est bien déroulé"});
+      (err, project) => { 
+        project ? project.success = "L'ajout du projet s'est bien déroulé" : "";
+        err ? rep.send({error: err.message}) : rep.send(project);
       }
     );
   }
@@ -80,5 +74,5 @@ const Delete = async (req, rep) => {
 };
 
 module.exports = {
-  SelectById, SelectByTitle, SelectAll, Insert, Update, Delete
+  SelectById, SelectAll, Insert, Update, Delete
 }
