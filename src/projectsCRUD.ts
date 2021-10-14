@@ -67,7 +67,7 @@ const Update = async (req, rep) => {
 };
 
 const Delete = async (req, rep) => {
-  if(req.body.secretKey !== process.env.secretKey) {
+  if(req.params.secretKey !== process.env.secretKey) {
     rep.send({error: "La secret key est incorrecte, donc la suppression n'a pas eu lieu."});
   } else {
     const projectID : number = req.params.id;
