@@ -1,4 +1,5 @@
 const axios = require("axios");
+require('dotenv').config(); //COMMENT IN PROD
 
 describe('UNIT TESTS PROJECTS CRUD', () => {
     let id;
@@ -9,7 +10,7 @@ describe('UNIT TESTS PROJECTS CRUD', () => {
     });
 
     it('should SELECT the fakeProject and set the id', async () => {
-        id = (await axios.get(`https://alexis-lemaire-cv-api/projects/${fakeProject.title}`)).data.id;
+        id = (await axios.get(`https://alexis-lemaire-cv-api/projectsByTitle/${fakeProject.title}`)).data.id;
         await expect(id).toBeDefined();
     });
 
