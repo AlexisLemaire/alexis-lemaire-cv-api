@@ -71,7 +71,7 @@ const Delete = async (req, rep) => {
     rep.send({error: "La secret key est incorrecte, donc la suppression n'a pas eu lieu."});
   } else {
     const projectID : number = req.params.id;
-    db.query("DELETE FROM mesProjets WHERE id = ?", [req.params.id], (err) => {
+    db.query("DELETE FROM mesProjets WHERE id = ?", [projectID], (err) => {
       err ? rep.send({error: err.message}) : rep.send({success: "La suppression du projet s'est bien déroulée"});
     });
   }
