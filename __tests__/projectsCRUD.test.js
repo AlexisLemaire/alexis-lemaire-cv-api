@@ -4,7 +4,7 @@ const fakeProject = fakeObjects.fakeProject;
 
 describe('UNIT TESTS PROJECTS CRUD', () => {   
     it('should POST a project & verify it was correctly POST', async () => {
-        let res = (await axios.post("http://localhost:3001/projects", fakeProject)).data;
+        let res = (await axios.post("http://alexis-lemaire-cv-api.herokuapp.com/projects", fakeProject)).data;
         await (fakeProject.id = res.insertId);
         await expect(res).toHaveProperty("success");
     });
