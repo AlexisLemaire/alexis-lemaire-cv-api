@@ -1,6 +1,5 @@
 const axios = require("axios");
-const fakeObjects = require("../dist/fakeObjects.js");
-const fakeProject = fakeObjects.fakeProject;
+const fakeProject = require("./fakeObjects.js").fakeProject;
 
 describe('UNIT TESTS PROJECTS CRUD', () => {   
     it('should POST a project & verify it was correctly POST', async () => {
