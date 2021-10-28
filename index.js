@@ -1,5 +1,6 @@
 const fastify = require("fastify")();
 fastify.register(require('fastify-cors'), { origin: '*' });
+const PORT = process.env.PORT || 3001;
 // require('dotenv').config(); //COMMENT IN PROD
 
 // ********************************* ROUTES ************************************************** //
@@ -11,4 +12,5 @@ fastify.post('/projects', projectsCRUD.Insert);                  // INSERT ONE
 fastify.put('/projects/:id', projectsCRUD.Update);               // UPDATE ONE
 fastify.delete('/projects/:id/:secretKey', projectsCRUD.Delete); // DELETE ONE
 
-fastify.listen(process.env.PORT || 3001, '0.0.0.0');
+console.log(`listen on port ${PORT}`)
+fastify.listen(PORT, '0.0.0.0');

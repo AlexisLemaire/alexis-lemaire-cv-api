@@ -19,6 +19,7 @@ const Insert = async (req, rep) => {
     rep.send({error: "La secret key est incorrecte, donc l'ajout n'a pas eu lieu."});
   } else {
     const title : string = req.body.title;
+    const client : string = req.body.client;
     const description : string = req.body.description;
     const date : string = req.body.date;
     const link : string = req.body.link;
@@ -28,10 +29,12 @@ const Insert = async (req, rep) => {
     const frontendTech : string = req.body.frontendTech;
     const backendTech : string = req.body.backendTech;
     db.query(
-      "INSERT INTO mesProjets(title,description,date,link,github,githubAPI,dev,frontendTech,backendTech) VALUES(?,?,?,?,?,?,?,?,?)", 
-      [title, description, date, link, github, githubAPI, dev, frontendTech, backendTech], 
+      "INSERT INTO mesProjets(title,client,description,date,link,github,githubAPI,dev,frontendTech,backendTech) VALUES(?,?,?,?,?,?,?,?,?)", 
+      [title, client, description, date, link, github, githubAPI, dev, frontendTech, backendTech], 
       (err, project) => { 
-        project ? project.success = "L'ajout du projet s'est bien déroulé" : "";
+        if(project){
+          project.success = "L'ajout du projet s'est bien déroulé"
+        }
         err ? rep.send({error: err.message}) : rep.send(project);
       }
     );
@@ -43,6 +46,7 @@ const Update = async (req, rep) => {
     rep.send({error: "La secret key est incorrecte, donc l'ajout n'a pas eu lieu."});
   } else {
     const title : string = req.body.title;
+    const client : string = req.body.client;
     const description : string = req.body.description;
     const date : string = req.body.date;
     const link : string = req.body.link;
@@ -53,8 +57,8 @@ const Update = async (req, rep) => {
     const backendTech : string = req.body.backendTech;
     const projectID : number = req.params.id;
     db.query(
-      "UPDATE mesProjets SET title = ?, description = ?, date = ?, link = ?, github = ?, githubAPI = ?, dev = ?, frontendTech = ?, backendTech = ? WHERE id = ?", 
-      [title, description, date, link, github, githubAPI, dev, frontendTech, backendTech, projectID], 
+      "UPDATE mesProjets SET title = ?, client = ?, description = ?, date = ?, link = ?, github = ?, githubAPI = ?, dev = ?, frontendTech = ?, backendTech = ? WHERE id = ?", 
+      [title, client, description, date, link, github, githubAPI, dev, frontendTech, backendTech, projectID], 
       (err) => {
         err ? rep.send({error: err.message}) : rep.send({success: "La mise à jour du projet s'est bien déroulée"});
       }
