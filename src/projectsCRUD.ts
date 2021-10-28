@@ -28,9 +28,10 @@ const Insert = async (req, rep) => {
     const dev : string = req.body.dev;
     const frontendTech : string = req.body.frontendTech;
     const backendTech : string = req.body.backendTech;
+    const responsive : string = req.body.responsive;
     db.query(
-      "INSERT INTO mesProjets(title,client,description,date,link,github,githubAPI,dev,frontendTech,backendTech) VALUES(?,?,?,?,?,?,?,?,?,?)", 
-      [title, client, description, date, link, github, githubAPI, dev, frontendTech, backendTech], 
+      "INSERT INTO mesProjets(title,client,description,date,link,github,githubAPI,dev,frontendTech,backendTech,responsive) VALUES(?,?,?,?,?,?,?,?,?,?,?)", 
+      [title, client, description, date, link, github, githubAPI, dev, frontendTech, backendTech, responsive], 
       (err, project) => { 
         if(project){
           project.success = "L'ajout du projet s'est bien déroulé"
@@ -55,10 +56,11 @@ const Update = async (req, rep) => {
     const dev : string = req.body.dev;
     const frontendTech : string = req.body.frontendTech;
     const backendTech : string = req.body.backendTech;
+    const responsive : string = req.body.responsive;
     const projectID : number = req.params.id;
     db.query(
-      "UPDATE mesProjets SET title = ?, client = ?, description = ?, date = ?, link = ?, github = ?, githubAPI = ?, dev = ?, frontendTech = ?, backendTech = ? WHERE id = ?", 
-      [title, client, description, date, link, github, githubAPI, dev, frontendTech, backendTech, projectID], 
+      "UPDATE mesProjets SET title = ?, client = ?, description = ?, date = ?, link = ?, github = ?, githubAPI = ?, dev = ?, frontendTech = ?, backendTech = ?, responsive = ? WHERE id = ?", 
+      [title, client, description, date, link, github, githubAPI, dev, frontendTech, backendTech, responsive, projectID], 
       (err) => {
         err ? rep.send({error: err.message}) : rep.send({success: "La mise à jour du projet s'est bien déroulée"});
       }
