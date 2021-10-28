@@ -2,7 +2,7 @@ const mysql = require('mysql');
 const db = mysql.createPool({host: process.env.host, user: process.env.user, password: process.env.password, database: process.env.database});
 
 const SelectAll = async (req, rep) => {
-  db.query("SELECT * FROM mesProjets", (err, result) => {
+  db.query("SELECT * FROM mesProjets ORDER BY date DESC", (err, result) => {
     rep.send(result);
   });
 };
