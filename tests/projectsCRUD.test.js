@@ -5,6 +5,7 @@ describe('UNIT TESTS PROJECTS CRUD', () => {
     it('should POST a project & verify it was correctly POST', async () => {
         let res = (await axios.post("http://alexis-lemaire-cv-api.herokuapp.com/projects", fakeProject)).data;
         await (fakeProject.id = res.insertId);
+        await console.log(res);
         await expect(res).toHaveProperty("success");
     });
 

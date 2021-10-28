@@ -29,7 +29,7 @@ const Insert = async (req, rep) => {
     const frontendTech : string = req.body.frontendTech;
     const backendTech : string = req.body.backendTech;
     db.query(
-      "INSERT INTO mesProjets(title,client,description,date,link,github,githubAPI,dev,frontendTech,backendTech) VALUES(?,?,?,?,?,?,?,?,?)", 
+      "INSERT INTO mesProjets(title,client,description,date,link,github,githubAPI,dev,frontendTech,backendTech) VALUES(?,?,?,?,?,?,?,?,?,?)", 
       [title, client, description, date, link, github, githubAPI, dev, frontendTech, backendTech], 
       (err, project) => { 
         if(project){
