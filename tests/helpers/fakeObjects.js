@@ -1,7 +1,7 @@
-require('dotenv').config(); //COMMENT IN PROD
+require('dotenv').config();
 
 const fakeProject = {
-    secretKey: process.env.secretKey,
+    secretKey: "Dotsuka91210",//process.env.secretKey,
     title: "MonFauxProjet",
     client: "FauxClient",
     description: "MaFausseDescription",
@@ -11,7 +11,8 @@ const fakeProject = {
     githubAPI: "https://fake-github.com",
     dev: "Maintenu",
     frontendTech: "Des techs",
-    backendTech: "D'autres techs"
+    backendTech: "D'autres techs",
+    responsive: "Oui"
 }
 
 module.exports = { 
