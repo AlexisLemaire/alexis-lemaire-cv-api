@@ -9,7 +9,7 @@ describe('UNIT TESTS PROJECTS CRUD', () => {
     });
 
     it('should SELECT the fakeProject', async () => {
-        let selectedProject = (await axios.get(`https://alexis-lemaire-cv-api.herokuapp.com/projects/${fakeProject.id}`)).data;
+        let selectedProject = (await axios.get(`https://alexis-lemaire-cv-api.herokuapp.com/projects/${fakeProject.id}`)).data[0];
         expect(selectedProject).toHaveProperty("title");
     });
 

@@ -12,7 +12,7 @@ const SelectAll = async (req, rep) => {
 const SelectById = async (req, rep) => {
   const projectID : number = req.params.id;
   db.query("SELECT * FROM mesProjets WHERE id = ?", projectID, (err, result) => {
-    rep.send(result[0]);
+    rep.send(result);
   });
 }
 
