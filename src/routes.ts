@@ -6,5 +6,7 @@ export default (fastify, opts, done) => {
     fastify.post('/projects', projectsCRUD.Insert);                 
     fastify.put('/projects/:id', projectsCRUD.Update);               
     fastify.delete('/projects/:id/:secretKey', projectsCRUD.Delete); 
+
+    done();
 }
 

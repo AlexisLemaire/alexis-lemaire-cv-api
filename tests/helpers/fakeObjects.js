@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const fakeProject = {
-    secretKey: "Dotsuka91210",//process.env.secretKey,
+    secretKey: process.env.secretKey,
     title: "MonFauxProjet",
     client: "FauxClient",
     description: "MaFausseDescription",
